@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>three globe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.module.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
     <script type="importmap">
@@ -23,6 +24,7 @@
             display: flex;
             height: 100vh;
             background-color: #000;
+            width: 100vw;
         }
        .globe_wrap{
             width: 70%;
@@ -71,6 +73,7 @@
         
         // console.log(globe_container);
         renderer.setSize(globe_container.offsetWidth , globe_container.offsetHeight)
+        // renderer.setSize(window.innerWidth , window.innerHeight)
         renderer.setPixelRatio(window.devicePixelRatio)
         // document.body.appendChild(renderer.domElement)
         
@@ -175,9 +178,32 @@
         }
         animate()
         
+        $(function () {
+            $(window).resize(function(){
+                resizeBanner()
+            })
+
+            function resizeBanner(){
+                 $('.banner1').css({
+                    width: '100vw',
+                    height: '100vh'
+                })
+                $('#globe_container').css({
+                    width:'70%',
+                    height: '100vh'
+                })
+                $('.canvas_globe').css({
+                    width:'100%',
+                    height: '100vh'
+                })
+                camera.aspect = globe_container.offsetWidth / globe_container.offsetHeight; //使用者可見整個場景物件改變大小
+                camera.updateProjectionMatrix(); //更新投影矩陣
+            }
+        })
+
+       
         
-        
-        addEventListener('mousemove', function(e){
+        window.addEventListener('mousemove', function(e){
             mouse.x = (e.clientX / innerWidth ) * 2 - 1
             mouse.y = (e.clientY / innerHeight ) * 2 - 1
         
